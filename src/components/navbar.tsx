@@ -1,4 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
+interface NavItemProps {
+  route: string;
+  label: string;
+}
+
+const NavItem = ({ route, label }: NavItemProps) => (
+  <li className="text-white hover:text-indigo-200">
+    <Link to={route}>{label}</Link>
+  </li>
+);
 
 export default function NavBar() {
   const [navbar, setNavbar] = useState(false);
@@ -8,9 +20,9 @@ export default function NavBar() {
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
         <div>
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
-            <button>
+            <Link to="/">
               <h2 className="text-2xl font-bold text-white">SmartDeposit</h2>
-            </button>
+            </Link>
             <div className="md:hidden">
               <button
                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
@@ -56,17 +68,12 @@ export default function NavBar() {
             }`}
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-              <li className="text-white hover:text-indigo-200">
-                <button>Tenant</button>
-              </li>
-              <li className="text-white hover:text-indigo-200">
-                <button>Landlord</button>
-              </li>
-              <li className="text-white hover:text-indigo-200">
-                <button>Admin</button>
-              </li>
+              <NavItem route="home" label="Home" />
+              <NavItem route="vaults" label="Vaults" />
+              <NavItem route="create" label="Create" />
+
               <li className="inline-block w-full px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
-                <button>Wallet</button>
+                <button>Connect Wallet</button>
               </li>
             </ul>
           </div>

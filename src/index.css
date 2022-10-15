@@ -18,6 +18,6 @@ code {
 
 @layer components {
   .base-button {
-    @apply w-24 py-3 bg-red-500 text-white font-bold rounded-full;
+    @apply w-24 py-3 bg-red-500 hover:bg-green-200 text-white font-bold rounded-full;
   }
 }

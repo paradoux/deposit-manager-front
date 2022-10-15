@@ -1,0 +1,11 @@
+import React from "react";
+
+const Home = () => {
+  return (
+    <main>
+      <h2>Home</h2>
+    </main>
+  );
+};
+
+export { Home };
