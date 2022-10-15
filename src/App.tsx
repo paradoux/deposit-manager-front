@@ -1,13 +1,19 @@
 import React from "react";
-import { Button } from "./components/Button";
+import { render } from "react-dom";
+import { Outlet, Link } from "react-router-dom";
+
+// import your route components tooimport { Button } from "./components/Button";
 
 function App() {
   return (
     <div className="flex items-center justify-center h-screen bg-slate-600">
-      <h1 className="text-3xl font-bold underline text-center text-white">
-        Hello world!
-      </h1>
-      <Button className="bg-green-500">hello</Button>
+      <h1>Deposit Manager</h1>
+      <nav>
+        <Link to="/home">Home</Link>|<Link to="/details">Details</Link>|
+        <Link to="/create">Create</Link>
+      </nav>
+
+      <Outlet />
     </div>
   );
 }
