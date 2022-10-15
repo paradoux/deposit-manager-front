@@ -15,3 +15,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@layer components {
+  .base-button {
+    @apply w-24 py-3 bg-red-500 text-white font-bold rounded-full;
+  }
+}
