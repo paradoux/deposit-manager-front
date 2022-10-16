@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { Web3Context } from "../context/web3-context";
 
 interface NavItemProps {
   route: string;
@@ -14,6 +15,11 @@ const NavItem = ({ route, label }: NavItemProps) => (
 
 export default function NavBar() {
   const [navbar, setNavbar] = useState(false);
+  const { provider } = useContext(Web3Context);
+
+  const handleClickWallet = () => {
+    console.log({ provider });
+  };
 
   return (
     <nav className="w-full bg-black shadow">
@@ -73,7 +79,9 @@ export default function NavBar() {
               <NavItem route="create" label="Create" />
 
               <li className="inline-block w-full px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
-                <button>Connect Wallet</button>
+                <button onClick={handleClickWallet} className="w-full">
+                  Connect Wallet
+                </button>
               </li>
             </ul>
           </div>
