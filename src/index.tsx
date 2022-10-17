@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import { Home, Create, Vaults, Vault } from "./routes";
+import { Web3Provider } from "./context/web3-context";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Web3Provider>
+      <RouterProvider router={router} />
+    </Web3Provider>
   </React.StrictMode>
 );
 
