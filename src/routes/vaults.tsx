@@ -8,7 +8,11 @@ const Vaults = () => {
       <h2>Vaults</h2>
       <div>
         {DUMMY_VAULTS.map((vault) => {
-          return <Link to={vault.toString()}>{vault}</Link>;
+          return (
+            <Link to={vault.toString()} key={vault}>
+              {vault}
+            </Link>
+          );
         })}
       </div>
     </main>
