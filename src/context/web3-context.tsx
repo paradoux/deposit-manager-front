@@ -15,10 +15,9 @@ const Web3Provider = ({ children }: Web3ProviderProps) => {
   const [values, setValues] = useState<Web3State>({ provider: null });
 
   useEffect(() => {
-    if (window?.ethereum as any) {
-      const provider = new ethers.providers.Web3Provider(
-        window?.ethereum as any
-      );
+    const ethereum = window?.ethereum;
+    if (ethereum) {
+      const provider = new ethers.providers.Web3Provider(ethereum);
       setValues({ provider });
     }
   }, []);
