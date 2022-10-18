@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAccount } from "../hooks/useAccount";
 
 interface NavItemProps {
   route: string;
@@ -14,6 +15,7 @@ const NavItem = ({ route, label }: NavItemProps) => (
 
 export default function NavBar() {
   const [navbar, setNavbar] = useState(false);
+  const { connectWallet, account } = useAccount();
 
   return (
     <nav className="w-full bg-black shadow">
@@ -73,7 +75,13 @@ export default function NavBar() {
               <NavItem route="create" label="Create" />
 
               <li className="inline-block w-full px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
-                <button>Connect Wallet</button>
+                {account ? (
+                  "Wallet Address:" + account
+                ) : (
+                  <button onClick={connectWallet} className="w-full">
+                    Connect Wallet
+                  </button>
+                )}
               </li>
             </ul>
           </div>

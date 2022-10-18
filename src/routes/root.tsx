@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
-import NavBar from "../components/navbar";
+import { Outlet } from "react-router-dom"
+import NavBar from "../components/navbar"
 
 export default function Root() {
   return (
@@ -9,5 +9,5 @@ export default function Root() {
         <Outlet />
       </main>
     </>
-  );
+  )
 }
