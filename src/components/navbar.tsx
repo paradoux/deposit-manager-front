@@ -71,10 +71,10 @@ export default function NavBar() {
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <NavItem route="home" label="Home" />
-              <NavItem route="vaults" label="Vaults" />
-              <NavItem route="create" label="Create" />
+              <NavItem route="vaults" label="My vaults" />
+              <NavItem route="create" label="Create vault" />
 
-              <li className="inline-block w-full px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
+              <li className="px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
                 {account ? (
                   "Wallet Address:" + account
                 ) : (
