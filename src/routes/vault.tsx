@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 const Vault = () => {
   let { vaultId } = useParams();
   return (
-    <main>
+    <div>
       <h2>Vault id: {vaultId}</h2>
-    </main>
+    </div>
   );
 };
 
