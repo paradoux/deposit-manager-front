@@ -1,0 +1,3 @@
+const ETHEREUM_WALLET_REGEX = /^0x[a-fA-F0-9]{40}$/;
+
+export { ETHEREUM_WALLET_REGEX };
