@@ -28,7 +28,7 @@ const DUMMY_VAULTS:Array<number> = [1, 2, 3];
 
 const Vaults = () => {
   return (
-    <main>
+    <div className="w-full">
       <VaultsComponent name="Landlord vaults" vaultsArray={DUMMY_VAULTS}/>
 
       <div className="flex justify-center py-24">
@@ -40,7 +40,7 @@ const Vaults = () => {
       </div>
 
       <VaultsComponent name="Renter vaults" vaultsArray={DUMMY_VAULTS}/>
-    </main>
+    </div>
   );
 };
 
