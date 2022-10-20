@@ -2,9 +2,9 @@ import React from "react";
 
 const Create = () => {
   return (
-    <main>
+    <div>
       <h2>Create</h2>
-    </main>
+    </div>
   );
 };
 

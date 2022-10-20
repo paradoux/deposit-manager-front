@@ -1,13 +1,13 @@
-import { Outlet } from "react-router-dom"
-import NavBar from "../components/navbar"
+import { Outlet } from "react-router-dom";
+import NavBar from "../components/navbar";
 
 export default function Root() {
   return (
     <>
       <NavBar />
-      <main className="h-screen text-red-300">
+      <main className="flex flex-1 text-red-300">
         <Outlet />
       </main>
     </>
-  )
+  );
 }
