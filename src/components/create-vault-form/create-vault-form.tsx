@@ -32,7 +32,7 @@ const CreateVaultForm = () => {
       }}
     >
       {({ isSubmitting }) => (
-        <Form className="flex flex-col border-2 py-4 px-6 w-1/2 min-w-[300px] max-w-lg">
+        <Form className="flex flex-col py-4 px-6 ">
           <Field type="text" name="name" label="Your Name" />
           <Field type="text" name="propertyAddress" label="Property Address" />
           <Field

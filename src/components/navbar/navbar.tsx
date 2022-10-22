@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAccount } from "../hooks/useAccount";
+import { useAccount } from "../../hooks/useAccount";
+import { Button } from "../Button";
+import ConnectWalletButton from "./connect-wallet-button";
 
 interface NavItemProps {
   route: string;
@@ -13,12 +15,12 @@ const NavItem = ({ route, label }: NavItemProps) => (
   </li>
 );
 
-export default function NavBar() {
+const NavBar = () => {
   const [navbar, setNavbar] = useState(false);
   const { connectWallet, account } = useAccount();
 
   return (
-    <nav className="w-full bg-black shadow">
+    <nav className="w-full bg-red shadow text-white">
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
         <div>
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
@@ -74,19 +76,13 @@ export default function NavBar() {
               <NavItem route="vaults" label="My vaults" />
               <NavItem route="create" label="Create vault" />
 
-              <li className="px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
-                {account ? (
-                  "Wallet Address:" + account
-                ) : (
-                  <button onClick={connectWallet} className="w-full">
-                    Connect Wallet
-                  </button>
-                )}
-              </li>
+              <ConnectWalletButton />
             </ul>
           </div>
         </div>
       </div>
     </nav>
   );
-}
+};
+
+export { NavBar };

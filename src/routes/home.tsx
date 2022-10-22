@@ -9,13 +9,7 @@ const Home = () => {
     });
   }, []);
   return (
-    <div
-      className="flex-1 px-4 sm:px-6 flex items-center	justify-center"
-      style={{
-        backgroundImage: "url(/bg-img.jpg)",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="flex-1 px-4 sm:px-6 flex items-center	justify-center">
       <div className="text-center pb-12 md:pb-16">
         <h1
           className="text-5xl md:text-6xl font-extrabold leading-tighter tracking-tighter mb-4"
@@ -41,13 +35,17 @@ const Home = () => {
             data-aos-delay="500"
           >
             <div>
-              <button className="inline-block w-full px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
+              <button className="inline-block w-full px-4 py-2 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400">
                 Create your vault
               </button>
             </div>
           </div>
         </div>
       </div>
+      {/* TODO: Re-add image */}
+      {/* <div className="m-8 flex justify-center items-center">
+        <img src="/images/bg-img.jpg" className="h-60"></img>
+      </div> */}
     </div>
   );
 };
