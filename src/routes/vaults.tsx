@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
 interface VaultProps {
   name: string;
@@ -15,7 +16,7 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
         return (
           <Link to={vault.toString()}>
             {/* TODO: Reduce shadow size on smaller boxes */}
-            <ShadowBox className="px-3 py-1 mr-8">
+            <ShadowBox className="px-3 py-2 mr-8">
               <h1 className="text-2xl mb-2 mt-0">Property address</h1>
               <p className="my-2">E16PZ</p>
               <div className="">Status</div>
@@ -36,9 +37,7 @@ const Vaults = () => {
       <div className="flex justify-center mt-6 mb-8">
         <Link to="/create">
           {/* TODO: Refactor to make the default button */}
-          <button className="inline-block w-full px-4 py-2 mt-8 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400">
-            Create your vault
-          </button>
+          <Button className="mt-8">Create your vault</Button>
         </Link>
       </div>
 

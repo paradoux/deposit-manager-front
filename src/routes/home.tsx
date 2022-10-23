@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Button } from "../components/Button";
 
 const Home = () => {
   useEffect(() => {
@@ -35,9 +36,7 @@ const Home = () => {
             data-aos-delay="500"
           >
             <div>
-              <button className="inline-block w-full px-4 py-2 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400">
-                Create your vault
-              </button>
+              <Button>Create your vault</Button>
             </div>
           </div>
         </div>
