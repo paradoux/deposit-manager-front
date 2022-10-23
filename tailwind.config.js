@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         wotfard: ["Wotfard", "sans-serif"],
+        sans: ['"Wotfard"', "sans-serif"],
       },
     },
   },

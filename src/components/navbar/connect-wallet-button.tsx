@@ -9,7 +9,7 @@ const randomDuration = () => Math.random() * 0.07 + 0.23;
 
 const variants = {
   start: () => ({
-    rotate: [0, -2, 2, -2, 0],
+    rotate: [4, -4, 4, -4, 4],
     transition: {
       //   delay: 2,
       repeat: Infinity,

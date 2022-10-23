@@ -1,45 +1,48 @@
 import { Link } from "react-router-dom";
+import { ShadowBox } from "../components/shadow-box";
 interface VaultProps {
   name: string;
-  vaultsArray: Array<number>
+  vaultsArray: Array<number>;
 }
 
-const VaultsComponent = ({name, vaultsArray}: VaultProps) => (
+const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
   <>
-    <h1 className="flex justify-center text-3xl text-gray-500 py-6">
+    <h1 className="flex justify-center mb-6 text-4xl font-wotfard font-bold">
       {name}
-    </h1><div className="flex flex-col justify-center sm:flex-row">
-        {vaultsArray.map((vault) => {
-          return (
-            <Link to={vault.toString()}>
-              <div className="border rounded text-black p-5 m-5 text-center	rounded-lg shadow-lg">
-                <h1 className="text-2xl mb-2">Property address</h1>
-                <p className="m-2">E16PZ</p>
-                <div className="border bg-gray-200">Status</div>
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    </>
+    </h1>
+    <div className="flex flex-col justify-center sm:flex-row">
+      {vaultsArray.map((vault) => {
+        return (
+          <Link to={vault.toString()}>
+            {/* TODO: Reduce shadow size on smaller boxes */}
+            <ShadowBox className="px-3 py-1 mr-8">
+              <h1 className="text-2xl mb-2 mt-0">Property address</h1>
+              <p className="my-2">E16PZ</p>
+              <div className="">Status</div>
+            </ShadowBox>
+          </Link>
+        );
+      })}
+    </div>
+  </>
 );
 
-const DUMMY_VAULTS:Array<number> = [1, 2, 3];
+const DUMMY_VAULTS: Array<number> = [1, 2, 3];
 
 const Vaults = () => {
   return (
-    <div className="w-full">
-      <VaultsComponent name="Landlord vaults" vaultsArray={DUMMY_VAULTS}/>
-
-      <div className="flex justify-center py-24">
+    <div className="w-full pt-4">
+      <VaultsComponent name="Landlord Vaults" vaultsArray={DUMMY_VAULTS} />
+      <div className="flex justify-center mt-6 mb-8">
         <Link to="/create">
-          <button className="text-2xl bg-sky-500 text-white	px-4 py-2 rounded-md shadow hover:bg-sky-600">
-            Create Vault
+          {/* TODO: Refactor to make the default button */}
+          <button className="inline-block w-full px-4 py-2 mt-8 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400">
+            Create your vault
           </button>
         </Link>
       </div>
 
-      <VaultsComponent name="Renter vaults" vaultsArray={DUMMY_VAULTS}/>
+      <VaultsComponent name="Renter Vaults" vaultsArray={DUMMY_VAULTS} />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import Root from "./routes/root";
 import ErrorPage from "./error-page";
 import { Home, Create, Vaults, Vault } from "./routes";
 import { Web3Provider } from "./context/web3-context";
+import { AnimatePresence } from "framer-motion";
 
 const router = createBrowserRouter([
   {

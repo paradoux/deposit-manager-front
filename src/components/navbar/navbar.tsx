@@ -10,7 +10,7 @@ interface NavItemProps {
 }
 
 const NavItem = ({ route, label }: NavItemProps) => (
-  <li className="text-white hover:text-indigo-200">
+  <li className="text-white hover:text-teal-400 font-wotfard font-bold">
     <Link to={route}>{label}</Link>
   </li>
 );
@@ -20,7 +20,7 @@ const NavBar = () => {
   const { connectWallet, account } = useAccount();
 
   return (
-    <nav className="w-full bg-red shadow text-white">
+    <nav className="w-full bg-red shadow text-[#A9ADC1]">
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
         <div>
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
@@ -73,7 +73,7 @@ const NavBar = () => {
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <NavItem route="home" label="Home" />
-              <NavItem route="vaults" label="My vaults" />
+              <NavItem route="vaults" label="My Vaults" />
               <NavItem route="create" label="Create vault" />
 
               <ConnectWalletButton />
