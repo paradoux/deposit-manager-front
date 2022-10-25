@@ -8,7 +8,7 @@ const Vault = () => {
     <div className="mt-12 lg:mt-8 w-full flex flex-col items-center font-wotfard">
       <ShadowBox className="p-10 mx-2 flex flex-col items-center">
         <h1 className="text-4xl py-6 font-mono">Your vault</h1>
-        <div className="card max-w-lg m-2 p-6 rounded-lg lg:text-2xl">
+        <div className="card max-w-lg m-2 p-6 rounded-lg lg:text-2xl text-center">
           <p className="mb-2"><span className="text-zinc-400">Owner name:</span> Bob Vance</p>
           <p className="mb-2"><span className="text-zinc-400">Owner wallet:</span> a2jsh432s9wx</p>
           <p className="mb-2"><span className="text-zinc-400">Renter wallet:</span> 224sh432s9wx</p>
