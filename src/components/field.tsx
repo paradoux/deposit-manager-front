@@ -3,13 +3,13 @@ import classNames from "classnames";
 
 const Field = ({ className, name, label, ...rest }: FieldAttributes<any>) => {
   const FieldClasses = classNames(
-    "border-solid border-grey-400 px-2 border-2",
+    "border-solid rounded-md px-2 py-[1px] border-2 text-black",
     className
   );
 
   return (
     <div className="flex flex-col my-1">
-      <label htmlFor={name} className="py-1">
+      <label htmlFor={name} className="mb-2">
         {label}
       </label>
       <FormikField className={FieldClasses} name={name} {...rest}></FormikField>

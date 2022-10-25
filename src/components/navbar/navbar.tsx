@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAccount } from "../hooks/useAccount";
+import { useAccount } from "../../hooks/useAccount";
+import { Button } from "../Button";
+import ConnectWalletButton from "./connect-wallet-button";
 
 interface NavItemProps {
   route: string;
@@ -8,17 +10,17 @@ interface NavItemProps {
 }
 
 const NavItem = ({ route, label }: NavItemProps) => (
-  <li className="text-white hover:text-indigo-200">
+  <li className="text-white hover:text-teal-400 font-wotfard font-bold">
     <Link to={route}>{label}</Link>
   </li>
 );
 
-export default function NavBar() {
+const NavBar = () => {
   const [navbar, setNavbar] = useState(false);
   const { connectWallet, account } = useAccount();
 
   return (
-    <nav className="w-full bg-black shadow">
+    <nav className="w-full bg-red shadow text-[#A9ADC1]">
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
         <div>
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
@@ -71,22 +73,16 @@ export default function NavBar() {
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <NavItem route="home" label="Home" />
-              <NavItem route="vaults" label="My vaults" />
+              <NavItem route="vaults" label="My Vaults" />
               <NavItem route="create" label="Create vault" />
 
-              <li className="px-4 py-2 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
-                {account ? (
-                  "Wallet Address:" + account
-                ) : (
-                  <button onClick={connectWallet} className="w-full">
-                    Connect Wallet
-                  </button>
-                )}
-              </li>
+              <ConnectWalletButton />
             </ul>
           </div>
         </div>
       </div>
     </nav>
   );
-}
+};
+
+export { NavBar };

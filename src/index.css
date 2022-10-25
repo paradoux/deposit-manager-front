@@ -27,6 +27,32 @@ code {
 
 @layer components {
   .base-button {
-    @apply w-24 py-3 bg-red-500 hover:bg-green-200 text-white font-bold rounded-full;
+    @apply inline-block w-full px-4 py-2 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400;
   }
+}
+
+/* @font-face {
+  font-family: "ADELIA";
+  src: url("../public/fonts/ADELIA.otf");
+} */
+@font-face {
+  font-family: "Wotfard";
+  src: url("../public/fonts/wotfard-bold-webfont.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Wotfard";
+  src: url("../public/fonts/wotfard-medium-webfont.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Wotfard";
+  src: url("../public/fonts/wotfard-regular-webfont.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
