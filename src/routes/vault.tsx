@@ -5,14 +5,14 @@ import { ShadowBox } from "../components/shadow-box";
 const Vault = () => {
   // let { vaultId } = useParams();
   return (
-    <div className="mt-12 lg:mt-8 w-full flex flex-col items-center font-wotfard">
-      <ShadowBox className="p-10 mx-2 flex flex-col items-center">
-        <h1 className="text-4xl py-6 font-mono">Your vault</h1>
-        <div className="card max-w-lg m-2 p-6 rounded-lg lg:text-2xl text-center">
+    <div className="w-full flex flex-col items-center justify-center font-wotfard">
+      <ShadowBox className="flex flex-col items-center">
+        <h1 className="text-4xl pt-6 font-mono">Your vault</h1>
+        <div className="card max-w-lg m-2 py-6 rounded-lg lg:text-3xl">
           <p className="mb-2"><span className="text-zinc-400">Owner name:</span> Bob Vance</p>
-          <p className="mb-2"><span className="text-zinc-400">Owner wallet:</span> a2jsh432s9wx</p>
-          <p className="mb-2"><span className="text-zinc-400">Renter wallet:</span> 224sh432s9wx</p>
-          <p className="mb-2"><span className="text-zinc-400">Property address:</span> 0x123…abc</p>
+          <p className="mb-2"><span className="text-zinc-400">Owner wallet:</span> 0x123…abc</p>
+          <p className="mb-2"><span className="text-zinc-400">Renter wallet:</span> 0x123…abc</p>
+          <p className="mb-2"><span className="text-zinc-400">Property address:</span> E16PZ</p>
           <p className="mb-2"><span className="text-zinc-400">End of rental period:</span> 21/06/2023</p>
           <div className="mt-8 pt-8 flex flex-col justify-between items-center border-t-2 border-slate-200">
             <p className="text-zinc-400">Vault status:</p>
