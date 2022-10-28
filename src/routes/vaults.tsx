@@ -16,7 +16,7 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
         return (
           <Link to={vault.toString()}>
             {/* TODO: Reduce shadow size on smaller boxes */}
-            <ShadowBox className="px-3 py-2 mr-8">
+            <ShadowBox className="px-3 py-8 m-4">
               <h1 className="text-2xl mb-2 mt-0">Property address</h1>
               <p className="my-2">E16PZ</p>
               <div className="">Status</div>
