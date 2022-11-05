@@ -40,13 +40,13 @@ const CreateVaultForm = () => {
               name="propertyAddress"
               label="Property Address"
             />
+            <Field type="test" name="renterWallet" label="Renter Wallet" />
             <Field
               type="number"
               name="depositAmount"
               label="Deposit Amount (in ETH)"
             />
             <Field type="date" name="endDate" label="Rental Period End Date" />
-            <Field type="test" name="renterWallet" label="Renter Wallet" />
           </div>
           {/* <Button type="submit" disabled={isSubmitting} className="">
             Submit
