@@ -1,23 +1,21 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAccount } from "../../hooks/useAccount";
-import { Button } from "../Button";
-import ConnectWalletButton from "./connect-wallet-button";
+import { useEthers } from "@usedapp/core"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import ConnectWalletButton from "./connect-wallet-button"
 
 interface NavItemProps {
-  route: string;
-  label: string;
+  route: string
+  label: string
 }
 
 const NavItem = ({ route, label }: NavItemProps) => (
   <li className="text-white hover:text-teal-400 font-wotfard font-bold">
     <Link to={route}>{label}</Link>
   </li>
-);
+)
 
 const NavBar = () => {
-  const [navbar, setNavbar] = useState(false);
-  const { connectWallet, account } = useAccount();
+  const [navbar, setNavbar] = useState(false)
 
   return (
     <nav className="w-full bg-red shadow text-[#A9ADC1]">
@@ -82,7 +80,7 @@ const NavBar = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export { NavBar };
+export { NavBar }
