@@ -63,6 +63,7 @@ const CreateVaultForm = () => {
               label="Renter Wallet Address"
               onChange={handleChange}
             />
+            <Field type="date" name="endDate" label="Rental Period End Date" />
           </div>
           <button
             type="submit"

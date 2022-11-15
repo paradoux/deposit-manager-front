@@ -58,6 +58,7 @@ const Vault = () => {
             <span className="text-zinc-400">End of rental period:</span>
             {new Date(vaultDetails.rentalPeriodEnd * 1000).toLocaleString()}
           </p>
+
           <div className="mt-8 pt-8 flex flex-col justify-between items-center border-t-2 border-slate-200">
             <p className="text-zinc-400">Vault status:</p>
             <p className="border p-2 mt-2 text-orange-300 border rounded-lg">
@@ -65,10 +66,11 @@ const Vault = () => {
             </p>
           </div>
         </div>
-        <button className="px-4 py-2 mb-6 text-center text-white font-bold bg-sky-500 rounded-md shadow hover:bg-sky-600">
+        <button className="base-button px-4 py-2 mb-6 text-center text-white font-bold rounded-md shadow hover:bg-sky-600">
           xxxx
         </button>
       </ShadowBox>
+      <Toaster />
     </div>
   )
 }
