@@ -1,32 +1,32 @@
-import { useEthers, shortenAddress } from "@usedapp/core"
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
-import { Button } from "../components/Button"
-import { ShadowBox } from "../components/shadow-box"
-import { utils, Contract } from "ethers"
+import { useEthers, shortenAddress } from "@usedapp/core";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Button } from "../components/Button";
+import { ShadowBox } from "../components/shadow-box";
+import { utils, Contract } from "ethers";
 
 interface BigNumber {
-  type: string
-  hex: string
+  type: string;
+  hex: string;
 }
 
 interface VaultType {
-  vaultId: string
-  propertyOwner: string
-  propertyRenter: string
-  rentalPeriodEnd: number
-  deposit: BigNumber
-  amountToReturn: BigNumber
-  deployedAddress: string
-  isDepositStored: boolean
-  isAmountAccepted: boolean
-  isRenterChunkReturned: boolean
-  isOwnerChunkReturned: boolean
+  vaultId: string;
+  propertyOwner: string;
+  propertyRenter: string;
+  rentalPeriodEnd: number;
+  deposit: BigNumber;
+  amountToReturn: BigNumber;
+  deployedAddress: string;
+  isDepositStored: boolean;
+  isAmountAccepted: boolean;
+  isRenterChunkReturned: boolean;
+  isOwnerChunkReturned: boolean;
 }
 
 interface VaultProps {
-  name: string
-  vaultsArray: Array<VaultType>
+  name: string;
+  vaultsArray: Array<VaultType>;
 }
 
 const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
@@ -51,16 +51,16 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
               </p>
             </ShadowBox>
           </Link>
-        )
+        );
       })}
     </div>
   </>
-)
+);
 
 const Vaults = () => {
-  const { account, activateBrowserWallet } = useEthers()
-  const [ownerVaults, setOwnerVaults] = useState([])
-  const [renterVaults, setRenterVaults] = useState([])
+  const { account, activateBrowserWallet } = useEthers();
+  const [ownerVaults, setOwnerVaults] = useState([]);
+  const [renterVaults, setRenterVaults] = useState([]);
 
   useEffect(() => {
     // React advises to declare the async function directly inside useEffect
@@ -68,34 +68,34 @@ const Vaults = () => {
       const ownerVaultResponse = fetch(
         "https://deposit-manager-functions.netlify.app/.netlify/functions/vaults-list-by-owner?" +
           new URLSearchParams({
-            owner: account
+            owner: account,
           })
-      )
+      );
 
       const renterVaultResponse = fetch(
         "https://deposit-manager-functions.netlify.app/.netlify/functions/vaults-list-by-renter?" +
           new URLSearchParams({
-            renter: account
+            renter: account,
           })
-      )
+      );
       const [ownerVaults, renterVaults] = await Promise.all([
         ownerVaultResponse,
-        renterVaultResponse
-      ])
+        renterVaultResponse,
+      ]);
 
       const [parsedOwnerVaults, parsedRenterVaults] = await Promise.all([
         ownerVaults.json(),
-        renterVaults.json()
-      ])
+        renterVaults.json(),
+      ]);
 
-      setOwnerVaults(parsedOwnerVaults)
-      setRenterVaults(parsedRenterVaults)
+      setOwnerVaults(parsedOwnerVaults);
+      setRenterVaults(parsedRenterVaults);
     }
 
     if (!!account) {
-      getVaults(account as string)
+      getVaults(account as string);
     }
-  }, [])
+  }, []);
 
   return !account ? (
     <Button
@@ -116,8 +116,8 @@ const Vaults = () => {
 
       <VaultsComponent name="Renter Vaults" vaultsArray={renterVaults} />
     </div>
-  )
-}
+  );
+};
 
-export { Vaults }
-export type { VaultType }
+export { Vaults };
+export type { VaultType };

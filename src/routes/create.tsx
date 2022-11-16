@@ -1,10 +1,11 @@
-import { useEthers } from "@usedapp/core"
-import { Button } from "../components/Button"
-import CreateVaultForm from "../components/create-vault-form/create-vault-form"
-import { ShadowBox } from "../components/shadow-box"
+import { useEthers } from "@usedapp/core";
+import { Button } from "../components/Button";
+import CreateVaultForm from "../components/create-vault-form/create-vault-form";
+import { ShadowBox } from "../components/shadow-box";
 
 const Create = () => {
-  const { account, activateBrowserWallet } = useEthers()
+  const { account, activateBrowserWallet } = useEthers();
+
   return !account ? (
     <Button
       onClick={() => activateBrowserWallet()}
@@ -21,7 +22,7 @@ const Create = () => {
         <CreateVaultForm />
       </ShadowBox>
     </div>
-  )
-}
+  );
+};
 
-export { Create }
+export { Create };
