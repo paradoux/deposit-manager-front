@@ -1,30 +1,43 @@
 import { useEthers, shortenAddress } from "@usedapp/core";
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
 import { VaultAction } from "../components/vault-action/vault-action";
 import { VaultType } from "./vaults";
 import { utils } from "ethers";
+import { BeatLoader } from "react-spinners";
+
 
 const Vault = () => {
   const { account, activateBrowserWallet } = useEthers();
   const { vaultAddress } = useParams();
   const [vaultDetails, setVaultDetails] = useState<VaultType>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    setError(false);
     // React advises to declare the async function directly inside useEffect
     async function getVaultDetails(vaultAddress: string) {
-      const vaultDetails = await fetch(
-        "https://deposit-manager-functions.netlify.app/.netlify/functions/vault-read?" +
+      setIsLoading(true);
+      try {
+        const vaultDetails = await fetch(
+          "https://deposit-manager-functions.netlify.app/.netlify/functions/vault-read?" +
           new URLSearchParams({
             vaultAddress: vaultAddress,
           })
-      );
+        );
 
-      const parsedVaultDetails = await vaultDetails.json();
+        const parsedVaultDetails = await vaultDetails.json();
 
-      setVaultDetails(parsedVaultDetails);
+        setVaultDetails(parsedVaultDetails);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
+
     }
 
     if (!!account) {
@@ -32,8 +45,19 @@ const Vault = () => {
     }
   }, []);
 
-  if (!vaultDetails) {
-    return <h1 className="text-4xl pt-6 font-mono">Cannot find vault</h1>;
+  if (isLoading) {
+    return (
+      <div className="w-screen flex justify-center items-center">
+        <BeatLoader color="#3b82f6" loading={true} />
+      </div>);
+  }
+
+
+  if (!vaultDetails || error) {
+    return (
+      <div className="w-screen flex justify-center items-center">
+        <h1 className="text-4xl pt-6 font-mono text-center">Cannot find vault</h1>
+      </div>);
   }
 
   return !account ? (
