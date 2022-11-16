@@ -1,37 +1,37 @@
-import { useEthers, shortenAddress } from "@usedapp/core"
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { Button } from "../components/Button"
-import { ShadowBox } from "../components/shadow-box"
-import { VaultType } from "./vaults"
+import { useEthers, shortenAddress } from '@usedapp/core';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Button } from '../components/Button';
+import { ShadowBox } from '../components/shadow-box';
+import { VaultType } from './vaults';
 
 const Vault = () => {
-  const { account, activateBrowserWallet } = useEthers()
-  const { vaultAddress } = useParams()
-  const [vaultDetails, setVaultDetails] = useState<VaultType>()
+  const { account, activateBrowserWallet } = useEthers();
+  const { vaultAddress } = useParams();
+  const [vaultDetails, setVaultDetails] = useState<VaultType>();
 
   useEffect(() => {
     // React advises to declare the async function directly inside useEffect
     async function getVaultDetails(vaultAddress: string) {
       const vaultDetails = await fetch(
-        "https://deposit-manager-functions.netlify.app/.netlify/functions/vault-read?" +
+        'https://deposit-manager-functions.netlify.app/.netlify/functions/vault-read?' +
           new URLSearchParams({
-            vaultAddress: vaultAddress
+            vaultAddress: vaultAddress,
           })
-      )
+      );
 
-      const parsedVaultDetails = await vaultDetails.json()
+      const parsedVaultDetails = await vaultDetails.json();
 
-      setVaultDetails(parsedVaultDetails)
+      setVaultDetails(parsedVaultDetails);
     }
 
     if (!!account) {
-      getVaultDetails(vaultAddress as string)
+      getVaultDetails(vaultAddress as string);
     }
-  }, [])
+  }, []);
 
   if (!vaultDetails) {
-    return <h1 className="text-4xl pt-6 font-mono">Cannot find vault</h1>
+    return <h1 className="text-4xl pt-6 font-mono">Cannot find vault</h1>;
   }
 
   return !account ? (
@@ -71,7 +71,7 @@ const Vault = () => {
         </button>
       </ShadowBox>
     </div>
-  )
-}
+  );
+};
 
-export { Vault }
+export { Vault };
