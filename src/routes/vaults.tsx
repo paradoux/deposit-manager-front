@@ -45,17 +45,30 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
     <div className="flex flex-col justify-center sm:flex-row">
       {vaultsArray.map((vault) => {
         return (
-          <Link to={vault.deployedAddress} key={vault.deployedAddress} data-aos="zoom-y-in">
+          <Link
+            to={vault.deployedAddress}
+            key={vault.deployedAddress}
+            data-aos="zoom-y-in"
+          >
             {/* TODO: Reduce shadow size on smaller boxes */}
             <ShadowBox className="px-3 py-8 m-4">
               <h1 className="text-small mb-2 mt-0">
-                Landlord address: <span className="float-right">{shortenAddress(vault.propertyOwner)}</span>
+                Landlord address:{" "}
+                <span className="float-right">
+                  {shortenAddress(vault.propertyOwner)}
+                </span>
               </h1>
               <p className="my-2 text-small">
-                Deposit amount: <span className="float-right">{utils.formatEther(vault.deposit.hex)}</span>
+                Deposit amount:{" "}
+                <span className="float-right">
+                  {utils.formatEther(vault.deposit.hex)}
+                </span>
               </p>
               <p className="my-2 text-small">
-                Renter address: <span className="float-right ml-12">{shortenAddress(vault.propertyRenter)}</span>
+                Renter address:{" "}
+                <span className="float-right ml-12">
+                  {shortenAddress(vault.propertyRenter)}
+                </span>
               </p>
             </ShadowBox>
           </Link>
@@ -113,7 +126,10 @@ const Vaults = () => {
   }, []);
 
   return !account ? (
-    <div className="w-full relative px-4 md:flex md:items-center md:justify-center" data-aos="zoom-y-in">
+    <div
+      className="w-full relative px-4 md:flex md:items-center md:justify-center"
+      data-aos="zoom-y-in"
+    >
       <div className="border border-gray-900 rounded-lg md:max-w-md md:mx-auto p-20 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
         <Button
           onClick={() => activateBrowserWallet()}
