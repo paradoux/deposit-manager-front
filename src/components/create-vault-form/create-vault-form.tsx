@@ -25,9 +25,7 @@ const CreateVaultForm = () => {
   ) as any;
 
   const { account, switchNetwork } = useEthers();
-  const { send, state } = useContractFunction(factoryContract, "createNewVault");
-
-  console.log({ state });
+  const { send } = useContractFunction(factoryContract, "createNewVault");
 
   return (
     <Formik
@@ -35,7 +33,6 @@ const CreateVaultForm = () => {
       // validate={validate}
       onSubmit={async (values, { setSubmitting }) => {
         const { depositAmount, renterWallet, endDate } = values;
-
 
         if (typeof window.ethereum === undefined) {
           return WarningMSG("Please install the metamask");
@@ -69,10 +66,7 @@ const CreateVaultForm = () => {
         const date = new Date(endDate);
         const unixEndDate = Math.floor(date.getTime() / 1000);
 
-        const transactionResult = await send(parsedDepositAmount, renterWallet, unixEndDate);
-
-        console.log({ transactionResult });
-
+        send(parsedDepositAmount, renterWallet, unixEndDate);
         setSubmitting(false);
       }}
     >
