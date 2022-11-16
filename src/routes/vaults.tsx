@@ -53,20 +53,20 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
             {/* TODO: Reduce shadow size on smaller boxes */}
             <ShadowBox className="px-3 py-8 m-4">
               <h1 className="text-small mb-2 mt-0">
-                Landlord address:{" "}
+                Landlord address:
                 <span className="float-right">
                   {shortenAddress(vault.propertyOwner)}
                 </span>
               </h1>
               <p className="my-2 text-small">
-                Deposit amount:{" "}
+                Deposit amount:
                 <span className="float-right">
                   {utils.formatEther(vault.deposit.hex)}
                 </span>
               </p>
               <p className="my-2 text-small">
-                Renter address:{" "}
-                <span className="float-right ml-12">
+                Renter address:
+                <span className="float-right">
                   {shortenAddress(vault.propertyRenter)}
                 </span>
               </p>
