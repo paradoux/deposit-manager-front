@@ -1,9 +1,12 @@
 import { useEthers, shortenAddress } from "@usedapp/core";
-import { useEffect, useState } from "react";
+import { useEffect, useState, CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
 import { utils, Contract } from "ethers";
+import BeatLoader from "react-spinners/BeatLoader";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 interface BigNumber {
   type: string;
@@ -29,6 +32,12 @@ interface VaultProps {
   vaultsArray: Array<VaultType>;
 }
 
+const override: CSSProperties = {
+  display: "flex",
+  justifyContent: "center",
+  padding: "100px 0",
+};
+
 const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
   <>
     <h1 className="flex justify-center mb-6 text-4xl font-wotfard font-bold">
@@ -37,17 +46,30 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
     <div className="flex flex-col justify-center sm:flex-row">
       {vaultsArray.map((vault) => {
         return (
-          <Link to={vault.deployedAddress} key={vault.deployedAddress}>
+          <Link
+            to={vault.deployedAddress}
+            key={vault.deployedAddress}
+            data-aos="zoom-y-in"
+          >
             {/* TODO: Reduce shadow size on smaller boxes */}
             <ShadowBox className="px-3 py-8 m-4">
-              <h1 className="text-2xl mb-2 mt-0">
-                {shortenAddress(vault.propertyOwner)}
+              <h1 className="text-small mb-2 mt-0">
+                Landlord address:
+                <span className="float-right">
+                  {shortenAddress(vault.propertyOwner)}
+                </span>
               </h1>
-              <p className="my-2">
-                {`Deposit amount: ${utils.formatEther(vault.deposit.hex)}`}
+              <p className="my-2 text-small">
+                Deposit amount:
+                <span className="float-right">
+                  {utils.formatEther(vault.deposit.hex)}
+                </span>
               </p>
-              <p className="my-2">
-                Renter address: {shortenAddress(vault.propertyRenter)}
+              <p className="my-2 text-small">
+                Renter address:
+                <span className="float-right">
+                  {shortenAddress(vault.propertyRenter)}
+                </span>
               </p>
             </ShadowBox>
           </Link>
@@ -61,6 +83,7 @@ const Vaults = () => {
   const { account, activateBrowserWallet } = useEthers();
   const [ownerVaults, setOwnerVaults] = useState([]);
   const [renterVaults, setRenterVaults] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // React advises to declare the async function directly inside useEffect
@@ -90,31 +113,51 @@ const Vaults = () => {
 
       setOwnerVaults(parsedOwnerVaults);
       setRenterVaults(parsedRenterVaults);
+
+      setLoading(false);
+
+      AOS.init({
+        duration: 2000,
+      });
     }
 
     if (!!account) {
       getVaults(account as string);
     }
-  }, []);
+  }, [account]);
 
   return !account ? (
-    <Button
-      onClick={() => activateBrowserWallet()}
-      className="cta-button connect-wallet-button"
+    <div
+      className="w-full relative px-4 md:flex md:items-center md:justify-center"
+      data-aos="zoom-y-in"
     >
-      Connect to Wallet
-    </Button>
+      <div className="border border-gray-900 rounded-lg md:max-w-md md:mx-auto p-20 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
+        <Button
+          onClick={() => activateBrowserWallet()}
+          className="cta-button connect-wallet-button"
+        >
+          Connect to Wallet
+        </Button>
+      </div>
+    </div>
   ) : (
     <div className="w-full pt-4">
-      <VaultsComponent name="Landlord Vaults" vaultsArray={ownerVaults} />
+      {loading ? (
+        <BeatLoader color="#3b82f6" loading={loading} cssOverride={override} />
+      ) : (
+        <VaultsComponent name="Landlord Vaults" vaultsArray={ownerVaults} />
+      )}
       <div className="flex justify-center mt-6 mb-8">
         <Link to="/create">
           {/* TODO: Refactor to make the default button */}
-          <Button className="mt-8">Create your vault</Button>
+          <Button className="mt-16">Create your vault</Button>
         </Link>
       </div>
-
-      <VaultsComponent name="Renter Vaults" vaultsArray={renterVaults} />
+      {loading ? (
+        <BeatLoader color="#3b82f6" loading={loading} cssOverride={override} />
+      ) : (
+        <VaultsComponent name="Renter Vaults" vaultsArray={renterVaults} />
+      )}
     </div>
   );
 };
