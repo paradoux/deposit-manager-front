@@ -70,7 +70,6 @@ const Vault = () => {
           xxxx
         </button>
       </ShadowBox>
-      <Toaster />
     </div>
   )
 }
