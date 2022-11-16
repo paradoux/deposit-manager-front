@@ -19,7 +19,7 @@ const initialValues: InitialValues = {
 
 const CreateVaultForm = () => {
   const factoryContract = new Contract(
-    "0x7e5aa82A96087b2C5c88e03b6E463f01a8F0288b",
+    process.env.REACT_APP_FACTORY_DEPLOYED_ADDRESS as string,
     VaultFactoryContract.abi
   ) as any;
 
