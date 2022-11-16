@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Button } from "../components/Button";
-
+import { Link } from "react-router-dom";
 const Home = () => {
   useEffect(() => {
     AOS.init({
@@ -36,7 +36,9 @@ const Home = () => {
             data-aos-delay="500"
           >
             <div>
-              <Button>Create your vault</Button>
+              <Link to="/create">
+                <Button>Create your vault</Button>
+              </Link>
             </div>
           </div>
         </div>
