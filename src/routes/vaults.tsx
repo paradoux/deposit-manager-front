@@ -123,7 +123,7 @@ const Vaults = () => {
     if (!!account) {
       getVaults(account as string);
     }
-  }, []);
+  }, [account]);
 
   return !account ? (
     <div
