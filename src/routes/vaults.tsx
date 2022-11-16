@@ -3,7 +3,7 @@ import { useEffect, useState, CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
-import { utils, Contract } from "ethers";
+import { utils } from "ethers";
 import BeatLoader from "react-spinners/BeatLoader";
 import AOS from "aos";
 import "aos/dist/aos.css";
