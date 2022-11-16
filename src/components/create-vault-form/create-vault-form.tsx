@@ -1,9 +1,9 @@
-import { Contract } from '@ethersproject/contracts';
-import { useContractFunction } from '@usedapp/core';
-import { utils } from 'ethers';
-import { Form, Formik } from 'formik';
-import VaultFactoryContract from '../../utils/VaultFactory.json';
-import { Field } from '../field';
+import { Contract } from "@ethersproject/contracts";
+import { useContractFunction } from "@usedapp/core";
+import { utils } from "ethers";
+import { Form, Formik } from "formik";
+import VaultFactoryContract from "../../utils/VaultFactory.json";
+import { Field } from "../field";
 
 export interface InitialValues {
   depositAmount: string;
@@ -12,18 +12,18 @@ export interface InitialValues {
 }
 
 const initialValues: InitialValues = {
-  depositAmount: '0',
-  endDate: '',
-  renterWallet: '',
+  depositAmount: "0",
+  endDate: "",
+  renterWallet: "",
 };
 
 const CreateVaultForm = () => {
   const factoryContract = new Contract(
-    '0x7e5aa82A96087b2C5c88e03b6E463f01a8F0288b',
+    "0x7e5aa82A96087b2C5c88e03b6E463f01a8F0288b",
     VaultFactoryContract.abi
   ) as any;
 
-  const { send } = useContractFunction(factoryContract, 'createNewVault');
+  const { send } = useContractFunction(factoryContract, "createNewVault");
 
   return (
     <Formik
