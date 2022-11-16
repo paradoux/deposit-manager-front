@@ -53,6 +53,7 @@ const CreateVaultForm = () => {
           currentChainId.toString() !== "0x13881"
         ) {
           WarningMSG("Please use Mumbai testnet");
+
           return await switchNetwork(80001);
         }
 
