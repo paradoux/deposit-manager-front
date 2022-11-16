@@ -1,45 +1,45 @@
-import { Contract } from "@ethersproject/contracts"
-import { useContractFunction } from "@usedapp/core"
-import { utils } from "ethers"
-import { Form, Formik } from "formik"
-import VaultFactoryContract from "../../utils/VaultFactory.json"
-import { Field } from "../field"
+import { Contract } from "@ethersproject/contracts";
+import { useContractFunction } from "@usedapp/core";
+import { utils } from "ethers";
+import { Form, Formik } from "formik";
+import VaultFactoryContract from "../../utils/VaultFactory.json";
+import { Field } from "../field";
 
 export interface InitialValues {
-  depositAmount: string
-  endDate: string
-  renterWallet: string
+  depositAmount: string;
+  endDate: string;
+  renterWallet: string;
 }
 
 const initialValues: InitialValues = {
   depositAmount: "0",
   endDate: "",
-  renterWallet: ""
-}
+  renterWallet: "",
+};
 
 const CreateVaultForm = () => {
   const factoryContract = new Contract(
-    process.env.REACT_APP_FACTORY_DEPLOYED_ADDRESS as string,
+    "0x7e5aa82A96087b2C5c88e03b6E463f01a8F0288b",
     VaultFactoryContract.abi
-  ) as any
+  ) as any;
 
-  const { send } = useContractFunction(factoryContract, "createNewVault")
+  const { send } = useContractFunction(factoryContract, "createNewVault");
 
   return (
     <Formik
       initialValues={initialValues}
       // validate={validate}
       onSubmit={(values, { setSubmitting }) => {
-        const { depositAmount, renterWallet, endDate } = values
+        const { depositAmount, renterWallet, endDate } = values;
 
-        const parsedDepositAmount = utils.parseEther(depositAmount.toString())
+        const parsedDepositAmount = utils.parseEther(depositAmount.toString());
 
-        const date = new Date(endDate)
-        const unixEndDate = Math.floor(date.getTime() / 1000)
+        const date = new Date(endDate);
+        const unixEndDate = Math.floor(date.getTime() / 1000);
 
-        send(parsedDepositAmount, renterWallet, unixEndDate)
+        send(parsedDepositAmount, renterWallet, unixEndDate);
 
-        setSubmitting(false)
+        setSubmitting(false);
       }}
     >
       {({ isSubmitting, handleSubmit, handleChange }) => (
@@ -75,7 +75,7 @@ const CreateVaultForm = () => {
         </Form>
       )}
     </Formik>
-  )
-}
+  );
+};
 
-export default CreateVaultForm
+export default CreateVaultForm;
