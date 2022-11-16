@@ -73,22 +73,22 @@ const Vault = () => {
         <h1 className="text-4xl pt-6 font-mono">Your vault</h1>
         <div className="card max-w-lg m-2 py-6 rounded-lg lg:text-3xl">
           <p className="mb-2">
-            <span className="text-zinc-400">Owner wallet:</span>
+            <span className="text-zinc-400">Owner wallet: </span>
             {shortenAddress(vaultDetails.propertyOwner)}
           </p>
           <p className="mb-2">
-            <span className="text-zinc-400">Renter wallet:</span>
+            <span className="text-zinc-400">Renter wallet: </span>
             {shortenAddress(vaultDetails.propertyRenter)}
           </p>
           <p className="mb-2">
-            <span className="text-zinc-400">End of rental period:</span>
+            <span className="text-zinc-400">End of rental period: </span>
             {new Date(vaultDetails.rentalPeriodEnd * 1000).toLocaleString([], {
               dateStyle: "long",
             })}
           </p>
           {vaultDetails.amountToReturn && (
             <p className="mb-2">
-              <span className="text-zinc-400">Proposed amount to return:</span>
+              <span className="text-zinc-400">Proposed amount to return: </span>
               {utils.formatEther(vaultDetails.amountToReturn.hex)}
             </p>
           )}
