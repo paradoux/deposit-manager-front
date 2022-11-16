@@ -110,7 +110,7 @@ const Vaults = () => {
     if (!!account) {
       getVaults(account as string);
     }
-  }, []);
+  }, [account]);
 
   return !account ? (
     <div className="w-full relative px-4 md:flex md:items-center md:justify-center" data-aos="zoom-y-in">
