@@ -1,35 +1,35 @@
-import { useEthers, shortenAddress } from "@usedapp/core"
-import { motion, useAnimation } from "framer-motion"
-import { disconnect } from "process"
-import { useEffect, useState } from "react"
-import { Button } from "../Button"
+import { useEthers, shortenAddress } from "@usedapp/core";
+import { motion, useAnimation } from "framer-motion";
+import { disconnect } from "process";
+import { useEffect, useState } from "react";
+import { Button } from "../Button";
 
 const variants = {
   start: () => ({
     rotate: [4, -4, 4, -4, 4],
     transition: {
       //   delay: 2,
-      repeat: Infinity
+      repeat: Infinity,
       //   duration: randomDuration(),
-    }
+    },
   }),
   reset: {
-    rotate: 0
-  }
-}
+    rotate: 0,
+  },
+};
 
 const ConnectWalletButton = () => {
-  const controls = useAnimation()
-  const { activateBrowserWallet, deactivate, account } = useEthers()
-  const [isHovered, setIsHovered] = useState(false)
+  const controls = useAnimation();
+  const { activateBrowserWallet, deactivate, account } = useEthers();
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (isHovered) {
-      controls.start("start")
+      controls.start("start");
     } else {
-      controls.start("reset")
+      controls.start("reset");
     }
-  }, [isHovered])
+  }, [isHovered]);
 
   return (
     <div>
@@ -67,7 +67,7 @@ const ConnectWalletButton = () => {
         </Button>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default ConnectWalletButton
+export default ConnectWalletButton;

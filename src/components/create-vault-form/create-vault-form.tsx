@@ -34,11 +34,10 @@ const CreateVaultForm = () => {
       onSubmit={async (values, { setSubmitting }) => {
         const { depositAmount, renterWallet, endDate } = values;
 
-        //When metamask is not installed
         if (typeof window.ethereum === undefined) {
           return WarningMSG("Please install the metamask");
         }
-        //When a user has not connect his/her metamask wallet
+
         if (!account) {
           return WarningMSG("Please connect your metamask wallet");
         }
@@ -47,7 +46,6 @@ const CreateVaultForm = () => {
           method: "eth_chainId",
         });
 
-        //When the Polygon or Mumbai network is not selected on the metamask
         if (
           currentChainId.toString() !== "0x89" &&
           currentChainId.toString() !== "0x13881"
@@ -57,7 +55,6 @@ const CreateVaultForm = () => {
           return await switchNetwork(80001);
         }
 
-        //When a user tried to submit empty values
         if (
           depositAmount.toString().trim() === "0" ||
           endDate.trim() === "" ||

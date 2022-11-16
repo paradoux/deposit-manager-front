@@ -1,8 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useEthers } from "@usedapp/core";
-import { ErrorMSG, WarningMSG } from "../../utils/messages";
+import { WarningMSG } from "../../utils/messages";
 const NetworkDetection = () => {
-  const toastId = useRef(null);
   const { activateBrowserWallet, account } = useEthers();
 
   useEffect(() => {
@@ -36,7 +35,7 @@ const NetworkDetection = () => {
           WarningMSG("Please use Mumbai testnet");
           await window.ethereum.request({
             method: "wallet_switchEthereumChain",
-            params: [{ chainId: "0x13881" }], // chainId must be in hexadecimal numbers
+            params: [{ chainId: "0x13881" }],
           });
         } catch (switchError: any) {
           if (switchError?.code === 4902) {
