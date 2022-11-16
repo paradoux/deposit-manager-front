@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
+import { VaultAction } from "../components/vault-action/vault-action";
 import { VaultType } from "./vaults";
+import { utils } from "ethers";
 
 const Vault = () => {
   const { account, activateBrowserWallet } = useEthers();
@@ -60,7 +62,12 @@ const Vault = () => {
               dateStyle: "long",
             })}
           </p>
-
+          {vaultDetails.amountToReturn && (
+            <p className="mb-2">
+              <span className="text-zinc-400">Proposed amount to return:</span>
+              {utils.formatEther(vaultDetails.amountToReturn.hex)}
+            </p>
+          )}
           <div className="mt-8 pt-8 flex flex-col justify-between items-center border-t-2 border-slate-200">
             <p className="text-zinc-400">Vault status:</p>
             <p className="border p-2 mt-2 text-orange-300 border rounded-lg">
@@ -74,9 +81,7 @@ const Vault = () => {
             </p>
           </div>
         </div>
-        {/* <button className="base-button px-4 py-2 mb-6 text-center text-white font-bold rounded-md shadow hover:bg-sky-600">
-          xxxx
-        </button> */}
+        <VaultAction VaultDetails={vaultDetails} />
       </ShadowBox>
     </div>
   );
