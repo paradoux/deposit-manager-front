@@ -94,7 +94,7 @@ const Vault = () => {
           )}
           <div className="mt-8 pt-8 flex flex-col justify-between items-center border-t-2 border-slate-200">
             <p className="text-zinc-400">Vault status:</p>
-            <p className="border p-2 mt-2 text-orange-300 border rounded-lg">
+            <p className="border p-2 mt-4 text-orange-300 border rounded-lg">
               {deriveVaultStatus(
                 vaultDetails.isDepositStored,
                 vaultDetails.rentalPeriodEnd,
