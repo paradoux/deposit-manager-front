@@ -1,23 +1,64 @@
-import React, {useState} from "react";
-// import { useParams } from "react-router-dom";
-import { ShadowBox } from "../components/shadow-box";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
-import toast, { Toaster } from 'react-hot-toast';
-
+import { useEthers, shortenAddress } from "@usedapp/core"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { Button } from "../components/Button"
+import { ShadowBox } from "../components/shadow-box"
+import { VaultType } from "./vaults"
 
 const Vault = () => {
-  // let { vaultId } = useParams();
-  const notify = () => toast.success("copied to clipboard")
-  return (
+  const { account, activateBrowserWallet } = useEthers()
+  const { vaultAddress } = useParams()
+  const [vaultDetails, setVaultDetails] = useState<VaultType>()
+
+  useEffect(() => {
+    // React advises to declare the async function directly inside useEffect
+    async function getVaultDetails(vaultAddress: string) {
+      const vaultDetails = await fetch(
+        "https://deposit-manager-functions.netlify.app/.netlify/functions/vault-read?" +
+          new URLSearchParams({
+            vaultAddress: vaultAddress
+          })
+      )
+
+      const parsedVaultDetails = await vaultDetails.json()
+
+      setVaultDetails(parsedVaultDetails)
+    }
+
+    if (!!account) {
+      getVaultDetails(vaultAddress as string)
+    }
+  }, [])
+
+  if (!vaultDetails) {
+    return <h1 className="text-4xl pt-6 font-mono">Cannot find vault</h1>
+  }
+
+  return !account ? (
+    <Button
+      onClick={() => activateBrowserWallet()}
+      className="cta-button connect-wallet-button"
+    >
+      Connect to Wallet
+    </Button>
+  ) : (
     <div className="w-full flex flex-col items-center justify-center font-wotfard">
       <ShadowBox className="flex flex-col items-center">
         <h1 className="text-4xl pt-6 font-mono">Your vault</h1>
         <div className="card max-w-lg m-2 py-6 rounded-lg lg:text-3xl">
-          <p className="mb-2"><span className="text-zinc-400">Owner name:</span> Bob Vance</p>
-          <p className="mb-2"><span className="text-zinc-400">Owner wallet:</span> <CopyToClipboard text="0x123…abc" onCopy={notify}><span className="cursor-pointer hover:text-green-200" title="Copy Command To Clipboard">0x123…abc</span></CopyToClipboard></p>
-          <p className="mb-2"><span className="text-zinc-400">Renter wallet:</span> <CopyToClipboard text="0x123…abc2" onCopy={notify}><span className="cursor-pointer hover:text-green-200" title="Copy Command To Clipboard">0x123…abc</span></CopyToClipboard></p>
-          <p className="mb-2"><span className="text-zinc-400">Property address:</span> E16PZ</p>
-          <p className="mb-2"><span className="text-zinc-400">End of rental period:</span> 21/06/2023</p>
+          <p className="mb-2">
+            <span className="text-zinc-400">Owner wallet:</span>
+            {shortenAddress(vaultDetails.propertyOwner)}
+          </p>
+          <p className="mb-2">
+            <span className="text-zinc-400">Renter wallet:</span>
+            {shortenAddress(vaultDetails.propertyRenter)}
+          </p>
+          <p className="mb-2">
+            <span className="text-zinc-400">End of rental period:</span>
+            {new Date(vaultDetails.rentalPeriodEnd * 1000).toLocaleString()}
+          </p>
+
           <div className="mt-8 pt-8 flex flex-col justify-between items-center border-t-2 border-slate-200">
             <p className="text-zinc-400">Vault status:</p>
             <p className="border p-2 mt-2 text-orange-300 border rounded-lg">
@@ -29,9 +70,8 @@ const Vault = () => {
           xxxx
         </button>
       </ShadowBox>
-      <Toaster />
     </div>
-  );
-};
+  )
+}
 
-export { Vault };
+export { Vault }

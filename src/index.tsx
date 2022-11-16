@@ -1,13 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Root from "./routes/root";
-import ErrorPage from "./error-page";
-import { Home, Create, Vaults, Vault } from "./routes";
-import { Web3Provider } from "./context/web3-context";
-import { AnimatePresence } from "framer-motion";
+import React from "react"
+import ReactDOM from "react-dom/client"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import ErrorPage from "./error-page"
+import "./index.css"
+import { Create, Home, Vault, Vaults } from "./routes"
+import Root from "./routes/root"
+import { Config, DAppProvider } from "@usedapp/core"
 
 const router = createBrowserRouter([
   {
@@ -17,50 +15,40 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home />
       },
       {
         path: "home",
-        element: <Home />,
+        element: <Home />
       },
       {
         path: "vaults",
-        element: <Vaults />,
+        element: <Vaults />
       },
       {
         path: "create",
-        element: <Create />,
+        element: <Create />
       },
       {
-        path: "vaults/:vaultId",
-        element: <Vault />,
-      },
-    ],
-  },
-]);
+        path: "vaults/:vaultAddress",
+        element: <Vault />
+      }
+    ]
+  }
+])
+
+const config: Config = {
+  // readOnlyChainId: Mainnet.chainId
+  // readOnlyUrls: {
+  //   [Mainnet.chainId]: getDefaultProvider("mainnet"),
+  //   [Goerli.chainId]: getDefaultProvider("goerli")
+  // }
+}
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <Web3Provider>
+    <DAppProvider config={config}>
       <RouterProvider router={router} />
-    </Web3Provider>
+    </DAppProvider>
   </React.StrictMode>
-);
-
-// const root = ReactDOM.createRoot(
-//   document.getElementById("root") as HTMLElement
-// );
-// root.render(
-//   <BrowserRouter>
-//     <Route path="/" element={<App />}>
-//       <Route path="home" element={<Home />} />
-//       <Route path="details" element={<Details />} />
-//       <Route path="create" element={<Create />} />
-//     </Route>
-//   </BrowserRouter>
-// );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+)

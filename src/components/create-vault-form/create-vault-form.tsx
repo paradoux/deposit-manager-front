@@ -1,56 +1,70 @@
-import { Form, Formik } from "formik";
-import { Button } from "../Button";
-import { Field } from "../field";
-import { validate } from "./validate";
+import { Contract } from "@ethersproject/contracts"
+import { useContractFunction } from "@usedapp/core"
+import { utils } from "ethers"
+import { Form, Formik } from "formik"
+import VaultFactoryContract from "../../utils/VaultFactory.json"
+import { Field } from "../field"
 
 export interface InitialValues {
-  name: string;
-  propertyAddress: string;
-  depositAmount: number | null;
-  endDate: number | null;
-  renterWallet: string;
+  depositAmount: string
+  endDate: string
+  renterWallet: string
 }
 
 const initialValues: InitialValues = {
-  name: "",
-  propertyAddress: "",
-  depositAmount: null,
-  endDate: null,
-  renterWallet: "",
-};
+  depositAmount: "0",
+  endDate: "",
+  renterWallet: ""
+}
 
 const CreateVaultForm = () => {
+  const factoryContract = new Contract(
+    process.env.REACT_APP_FACTORY_DEPLOYED_ADDRESS as string,
+    VaultFactoryContract.abi
+  ) as any
+
+  const { send } = useContractFunction(factoryContract, "createNewVault")
+
   return (
     <Formik
       initialValues={initialValues}
-      validate={validate}
+      // validate={validate}
       onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          setSubmitting(false);
-        }, 400);
+        const { depositAmount, renterWallet, endDate } = values
+
+        const parsedDepositAmount = utils.parseEther(depositAmount.toString())
+
+        const date = new Date(endDate)
+        const unixEndDate = Math.floor(date.getTime() / 1000)
+
+        send(parsedDepositAmount, renterWallet, unixEndDate)
+
+        setSubmitting(false)
       }}
     >
-      {({ isSubmitting }) => (
-        <Form className="py-4 ">
-          <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-            <Field type="text" name="name" label="Your Name" />
-            <Field
-              type="text"
-              name="propertyAddress"
-              label="Property Address"
-            />
-            <Field type="test" name="renterWallet" label="Renter Wallet" />
+      {({ isSubmitting, handleSubmit, handleChange }) => (
+        <Form className="py-4" onSubmit={handleSubmit}>
+          <div className="grid grid-cols-3 gap-x-8 gap-y-4">
             <Field
               type="number"
               name="depositAmount"
               label="Deposit Amount (in ETH)"
+              onChange={handleChange}
+            />
+            <Field
+              type="date"
+              name="endDate"
+              label="Rental Period End Date"
+              onChange={handleChange}
+            />
+            <Field
+              type="string"
+              name="renterWallet"
+              label="Renter Wallet Address"
+              onChange={handleChange}
             />
             <Field type="date" name="endDate" label="Rental Period End Date" />
           </div>
-          {/* <Button type="submit" disabled={isSubmitting} className="">
-            Submit
-          </Button> */}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -61,7 +75,7 @@ const CreateVaultForm = () => {
         </Form>
       )}
     </Formik>
-  );
-};
+  )
+}
 
-export default CreateVaultForm;
+export default CreateVaultForm
