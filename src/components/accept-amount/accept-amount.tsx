@@ -24,7 +24,7 @@ const AcceptAmountButton = ({ vaultAddress }: AcceptAmountButtonProps) => {
   };
 
   return (
-    <TransactionButton status={state.status} buttonText="Send deposit" onClick={handleSubmit} />
+    <TransactionButton status={state.status} buttonText="Accept Proposed Amount" onClick={handleSubmit} />
   );
 };
 
