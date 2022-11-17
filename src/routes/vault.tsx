@@ -1,14 +1,17 @@
-import { useEthers, shortenAddress } from "@usedapp/core";
+import { shortenAddress, useEthers } from "@usedapp/core";
+import { utils } from "ethers";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
 import { VaultAction } from "../components/vault-action/vault-action";
 import { VaultType } from "./vaults";
-import { utils } from "ethers";
-import { BeatLoader } from "react-spinners";
 
 const Vault = () => {
+  const notify = () => toast.success("copied to clipboard");
+
   const { account, activateBrowserWallet } = useEthers();
   const { vaultAddress } = useParams();
   const [vaultDetails, setVaultDetails] = useState<VaultType>();
@@ -41,7 +44,7 @@ const Vault = () => {
     if (!!account) {
       getVaultDetails(vaultAddress as string);
     }
-  }, [account]);
+  }, [account, vaultAddress]);
 
   if (isLoading) {
     return (
@@ -111,6 +114,7 @@ const Vault = () => {
           </div>
         </div>
         <VaultAction VaultDetails={vaultDetails} />
+        <Toaster />
       </ShadowBox>
     </div>
   );
