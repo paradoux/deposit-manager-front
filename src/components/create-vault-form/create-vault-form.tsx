@@ -2,6 +2,7 @@ import { Contract } from "@ethersproject/contracts";
 import { useContractFunction, useEthers } from "@usedapp/core";
 import { utils } from "ethers";
 import { Form, Formik } from "formik";
+import { useEffect } from "react";
 import { WarningMSG } from "../../utils/messages";
 import VaultFactoryContract from "../../utils/VaultFactory.json";
 import { Field } from "../field";
@@ -25,7 +26,15 @@ const CreateVaultForm = () => {
   ) as any;
 
   const { account, switchNetwork } = useEthers();
-  const { send } = useContractFunction(factoryContract, "createNewVault");
+  const { send, state, events } = useContractFunction(
+    factoryContract,
+    "createNewVault"
+  );
+
+  useEffect(() => {
+    console.log(`state : ${JSON.stringify(state)}`);
+    console.log(`events : ${JSON.stringify(events)}`);
+  }, [state, events]);
 
   return (
     <Formik

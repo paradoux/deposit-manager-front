@@ -5,9 +5,11 @@ import ErrorPage from "./error-page";
 import "./index.css";
 import { Create, Home, Vault, Vaults } from "./routes";
 import Root from "./routes/root";
-import { Config, DAppProvider } from "@usedapp/core";
+import { Config, DAppProvider, Mumbai, Polygon } from "@usedapp/core";
+import { getDefaultProvider } from "ethers";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,11 +41,21 @@ const router = createBrowserRouter([
 ]);
 
 const config: Config = {
-  // readOnlyChainId: Mainnet.chainId
-  // readOnlyUrls: {
-  //   [Mainnet.chainId]: getDefaultProvider("mainnet"),
-  //   [Goerli.chainId]: getDefaultProvider("goerli")
-  // }
+  readOnlyChainId: Mumbai.chainId,
+  readOnlyUrls: {
+    [Polygon.chainId]: getDefaultProvider({
+      name: "Polygon",
+      chainId: 137,
+      _defaultProvider: (providers) =>
+        new providers.JsonRpcProvider("https://polygon-rpc.com"),
+    }),
+    [Mumbai.chainId]: getDefaultProvider({
+      name: "Mumbai",
+      chainId: 80001,
+      _defaultProvider: (providers) =>
+        new providers.JsonRpcProvider("https://rpc-mumbai.maticvigil.com"),
+    }),
+  },
 };
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
