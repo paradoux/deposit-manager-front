@@ -39,15 +39,14 @@ const ProposeAmountForm = ({ vaultAddress }: ProposeAmountFormProps) => {
       }}
     >
       {({ isSubmitting, handleSubmit, handleChange }) => (
-        <Form className="py-4" onSubmit={handleSubmit}>
-          <div className="grid grid-cols-3 gap-x-8 gap-y-4">
+        <Form className="py-4 w-full" onSubmit={handleSubmit}>
             <Field
               type="number"
               name="proposedAmount"
               label="Amount (in ETH)"
+              className="bg-transparent text-white"
               onChange={handleChange}
             />
-          </div>
           <button
             type="submit"
             disabled={isSubmitting}

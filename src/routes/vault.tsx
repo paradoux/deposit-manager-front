@@ -1,15 +1,17 @@
-import { useEthers, shortenAddress } from "@usedapp/core";
+import { shortenAddress, useEthers } from "@usedapp/core";
+import { utils } from "ethers";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
 import { VaultAction } from "../components/vault-action/vault-action";
 import { VaultType } from "./vaults";
-import { utils } from "ethers";
-import { BeatLoader } from "react-spinners";
-
 
 const Vault = () => {
+  const notify = () => toast.success("copied to clipboard");
+
   const { account, activateBrowserWallet } = useEthers();
   const { vaultAddress } = useParams();
   const [vaultDetails, setVaultDetails] = useState<VaultType>();
@@ -24,9 +26,9 @@ const Vault = () => {
       try {
         const vaultDetails = await fetch(
           "https://deposit-manager-functions.netlify.app/.netlify/functions/vault-read?" +
-          new URLSearchParams({
-            vaultAddress: vaultAddress,
-          })
+            new URLSearchParams({
+              vaultAddress: vaultAddress,
+            })
         );
 
         const parsedVaultDetails = await vaultDetails.json();
@@ -37,27 +39,29 @@ const Vault = () => {
       } finally {
         setIsLoading(false);
       }
-
     }
 
     if (!!account) {
       getVaultDetails(vaultAddress as string);
     }
-  }, []);
+  }, [account, vaultAddress]);
 
   if (isLoading) {
     return (
       <div className="w-screen flex justify-center items-center">
         <BeatLoader color="#3b82f6" loading={true} />
-      </div>);
+      </div>
+    );
   }
-
 
   if (!vaultDetails || error) {
     return (
       <div className="w-screen flex justify-center items-center">
-        <h1 className="text-4xl pt-6 font-mono text-center">Cannot find vault</h1>
-      </div>);
+        <h1 className="text-4xl pt-6 font-mono text-center">
+          Cannot find vault
+        </h1>
+      </div>
+    );
   }
 
   return !account ? (
@@ -81,12 +85,16 @@ const Vault = () => {
             {shortenAddress(vaultDetails.propertyRenter)}
           </p>
           <p className="mb-2">
+            <span className="text-zinc-400">Deposit amount: </span>
+            {utils.formatEther(vaultDetails.deposit.hex)}
+          </p>
+          <p className="mb-2">
             <span className="text-zinc-400">End of rental period: </span>
             {new Date(vaultDetails.rentalPeriodEnd * 1000).toLocaleString([], {
               dateStyle: "long",
             })}
           </p>
-          {vaultDetails.amountToReturn && (
+          {utils.formatEther(vaultDetails.amountToReturn.hex) !== "0.0" && (
             <p className="mb-2">
               <span className="text-zinc-400">Proposed amount to return: </span>
               {utils.formatEther(vaultDetails.amountToReturn.hex)}
@@ -106,6 +114,7 @@ const Vault = () => {
           </div>
         </div>
         <VaultAction VaultDetails={vaultDetails} />
+        <Toaster />
       </ShadowBox>
     </div>
   );
