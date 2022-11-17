@@ -3,9 +3,16 @@ import { useContractFunction, useEthers } from "@usedapp/core";
 import { utils } from "ethers";
 import { Form, Formik } from "formik";
 import { useEffect } from "react";
+import { BeatLoader } from "react-spinners";
 import { WarningMSG } from "../../utils/messages";
 import VaultFactoryContract from "../../utils/VaultFactory.json";
 import { Field } from "../field";
+
+const override = {
+  display: "flex",
+  justifyContent: "center",
+  padding: "2px 0",
+};
 
 export interface InitialValues {
   depositAmount: string;
@@ -26,15 +33,20 @@ const CreateVaultForm = () => {
   ) as any;
 
   const { account, switchNetwork } = useEthers();
-  const { send, state, events } = useContractFunction(
+  const { send, state: { status, ...rest }, events } = useContractFunction(
     factoryContract,
     "createNewVault"
   );
 
+  const isLoading = status === "Mining" || status === "PendingSignature";
+  const isError = status === "Fail" || status === "Exception";
+  const isSuccess = status === "Success";
   useEffect(() => {
-    console.log(`state : ${JSON.stringify(state)}`);
-    console.log(`events : ${JSON.stringify(events)}`);
-  }, [state, events]);
+    // console.log(`state : ${JSON.stringify(state)}`);
+    // console.log(`events : ${JSON.stringify(events)}`);
+    console.log({ rest });
+    // console.log({ status: state.status });
+  }, [rest]);
 
   return (
     <Formik
@@ -75,13 +87,15 @@ const CreateVaultForm = () => {
         const date = new Date(endDate);
         const unixEndDate = Math.floor(date.getTime() / 1000);
 
-        send(parsedDepositAmount, renterWallet, unixEndDate);
+        await send(parsedDepositAmount, renterWallet, unixEndDate);
         setSubmitting(false);
       }}
     >
       {({ isSubmitting, handleSubmit, handleChange }) => (
         <Form className="py-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-3 gap-x-8 gap-y-4">
+            <p>is Submitting: {isSubmitting}</p>
+            <p>state: {status}</p>
             <Field
               type="number"
               name="depositAmount"
@@ -103,11 +117,12 @@ const CreateVaultForm = () => {
           </div>
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isLoading}
             className="inline-block w-full px-4 py-2 mt-8 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400"
           >
-            Create your vault
+            {isLoading ? <BeatLoader color="#ffffff" loading={isLoading} cssOverride={override} /> : 'Create your vault'}
           </button>
+          {isError ? <p className="text-red-500 mt-2">There was an error when attempting to create your vault</p> : null}
         </Form>
       )}
     </Formik>
