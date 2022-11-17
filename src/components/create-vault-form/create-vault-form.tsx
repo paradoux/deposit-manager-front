@@ -148,6 +148,7 @@ const CreateVaultForm = () => {
                   name="depositAmount"
                   label="Deposit Amount (in ETH)"
                   onChange={handleChange}
+                  onKeyUp={updateDeposit}
                 />
                 <Field
                   type="date"
@@ -162,6 +163,7 @@ const CreateVaultForm = () => {
                   onChange={handleChange}
                 />
               </div>
+              <div>{`1 matic ≈ $ ${oneMaticInUSD} ($ ${inputDepositInUSD})`}</div>
               <button
                 type="submit"
                 disabled={isLoading}
