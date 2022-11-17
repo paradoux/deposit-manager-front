@@ -4,6 +4,7 @@ import { utils } from "ethers";
 import { Form, Formik } from "formik";
 import VaultContract from "../../utils/VaultImplementation.json";
 import { Field } from "../field";
+import TransactionButton from "../transaction-button";
 
 interface ProposeAmountFormProps {
   vaultAddress: string;
@@ -20,7 +21,7 @@ const initialValues: InitialValues = {
 const ProposeAmountForm = ({ vaultAddress }: ProposeAmountFormProps) => {
   const vaultContract = new Contract(vaultAddress, VaultContract.abi) as any;
 
-  const { send } = useContractFunction(vaultContract, "setAmountToReturn");
+  const { send, state: { status }, } = useContractFunction(vaultContract, "setAmountToReturn");
 
   return (
     <Formik
@@ -40,20 +41,14 @@ const ProposeAmountForm = ({ vaultAddress }: ProposeAmountFormProps) => {
     >
       {({ isSubmitting, handleSubmit, handleChange }) => (
         <Form className="py-4 w-full" onSubmit={handleSubmit}>
-            <Field
-              type="number"
-              name="proposedAmount"
-              label="Amount (in ETH)"
-              className="bg-transparent text-white"
-              onChange={handleChange}
-            />
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="inline-block w-full px-4 py-2 mt-8 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400"
-          >
-            Propose new amount to return
-          </button>
+          <Field
+            type="number"
+            name="proposedAmount"
+            label="Amount (in ETH)"
+            className="bg-transparent text-white"
+            onChange={handleChange}
+          />
+          <TransactionButton status={status} buttonText="Propose new amount to return" />
         </Form>
       )}
     </Formik>

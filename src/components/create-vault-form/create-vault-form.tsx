@@ -10,6 +10,8 @@ import VaultFactoryContract from "../../utils/VaultFactory.json";
 import { Button } from "../Button";
 import { Field } from "../field";
 import { CurrentMaticInUSD } from "./matic-price-feed";
+import { getHighLevelTransactionState } from "../../utils/misc";
+import TransactionButton from "../transaction-button";
 
 const override = {
   display: "flex",
@@ -46,9 +48,7 @@ const CreateVaultForm = () => {
     events,
   } = useContractFunction(factoryContract, "createNewVault");
   const [vaultAddress, setVaultAddress] = useState("");
-  const isLoading = status === "Mining" || status === "PendingSignature";
-  const isError = status === "Fail" || status === "Exception";
-  const isSuccess = status === "Success";
+  const { isSuccess } = getHighLevelTransactionState(status);
 
   useEffect(() => {
     /* @ts-ignore */
@@ -164,38 +164,7 @@ const CreateVaultForm = () => {
                 />
               </div>
               <div>{`1 matic ≈ $ ${oneMaticInUSD} ($ ${inputDepositInUSD})`}</div>
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="inline-block w-full px-4 py-2 mt-8 text-center text-white font-bold bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow hover:from-teal-400 hover:to-teal-400"
-              >
-                {isLoading ? (
-                  <BeatLoader
-                    color="#ffffff"
-                    loading={isLoading}
-                    cssOverride={override}
-                  />
-                ) : (
-                  "Create your vault"
-                )}
-              </button>
-              {isLoading ? (
-                <p className="mt-2">
-                  Transaction status:{" "}
-                  <span
-                    className={
-                      status === "Mining" ? "text-teal-400" : "text-blue-500"
-                    }
-                  >
-                    {status.replace(/([a-z])([A-Z])/g, "$1 $2")}
-                  </span>
-                </p>
-              ) : null}
-              {isError ? (
-                <p className="text-red-500 mt-2">
-                  There was an error when attempting to create your vault
-                </p>
-              ) : null}
+              <TransactionButton status={status} buttonText="Create your vault" />
             </Form>
           )}
         </Formik>
