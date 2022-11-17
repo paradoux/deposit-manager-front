@@ -56,7 +56,7 @@ const TransactionButton = ({ status, buttonText, onClick }: TransactionButtonPro
             ) : null}
             {isError ? (
                 <p className="text-red-500 mt-2">
-                    There was an error when attempting to create your vault
+                    There was an error with your transaction
                 </p>
             ) : null}
         </>
