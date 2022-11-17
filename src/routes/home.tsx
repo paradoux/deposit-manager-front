@@ -27,8 +27,7 @@ const Home = () => {
             data-aos="zoom-y-out"
             data-aos-delay="150"
           >
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur,
-            quisquam!
+            Rental security deposit management, on the blockchain.
           </p>
           <div
             className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center"
