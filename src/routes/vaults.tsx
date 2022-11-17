@@ -42,7 +42,7 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
     <h1 className="flex justify-center mb-6 text-4xl font-wotfard font-bold">
       {name}
     </h1>
-    <div className="flex flex-col justify-center sm:flex-row">
+    <div className="flex flex-col flex-wrap justify-center sm:flex-row">
       {vaultsArray.map((vault) => {
         return (
           <Link
@@ -54,7 +54,7 @@ const VaultsComponent = ({ name, vaultsArray }: VaultProps) => (
             <ShadowBox className="px-3 py-8 m-4">
               <h1 className="text-small mb-2 mt-0">
                 Landlord address:
-                <span className="float-right">
+                <span className="float-right ml-10">
                   {shortenAddress(vault.propertyOwner)}
                 </span>
               </h1>
@@ -123,7 +123,7 @@ const Vaults = () => {
     if (!!account) {
       getVaults(account as string);
     }
-  }, []);
+  }, [account]);
 
   return !account ? (
     <div
