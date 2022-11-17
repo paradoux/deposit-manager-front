@@ -103,13 +103,7 @@ const Vault = () => {
           <div className="mt-8 pt-8 flex flex-col justify-between items-center border-t-2 border-slate-200">
             <p className="text-zinc-400">Vault status:</p>
             <p className="border p-2 mt-4 text-orange-300 border rounded-lg">
-              {deriveVaultStatus(
-                vaultDetails.isDepositStored,
-                vaultDetails.rentalPeriodEnd,
-                vaultDetails.isAmountAccepted,
-                vaultDetails.isRenterChunkReturned,
-                vaultDetails.isOwnerChunkReturned
-              )}
+              {deriveVaultStatus(vaultDetails)}
             </p>
           </div>
         </div>
@@ -120,26 +114,24 @@ const Vault = () => {
   );
 };
 
-const deriveVaultStatus = (
-  isDepositStored: boolean,
-  rentalPeriodEnd: number,
-  isAmountAccepted: boolean,
-  isRenterChunkReturned: boolean,
-  isOwnerChunkReturned: boolean
-): string => {
-  if (!isDepositStored) {
+const deriveVaultStatus = (vaultDetails: VaultType): string => {
+  if (!vaultDetails.isDepositStored) {
     return "Awaiting deposit";
   }
 
-  if (Math.floor(Date.now() / 1000) < rentalPeriodEnd) {
+  if (Math.floor(Date.now() / 1000) < vaultDetails.rentalPeriodEnd) {
     return "Rental ongoing";
   }
 
-  if (!isAmountAccepted) {
+  if (!vaultDetails.isAmountAccepted) {
     return "Awaiting agreement";
   }
 
-  if (!isRenterChunkReturned || !isOwnerChunkReturned) {
+  if (
+    !vaultDetails.isRenterChunkReturned ||
+    (vaultDetails.deposit.hex !== vaultDetails.amountToReturn.hex &&
+      !vaultDetails.isOwnerChunkReturned)
+  ) {
     return "Deposit ready to withdraw";
   }
 
