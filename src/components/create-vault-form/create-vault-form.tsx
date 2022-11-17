@@ -2,10 +2,11 @@ import { Contract } from "@ethersproject/contracts";
 import { useContractFunction, useEthers } from "@usedapp/core";
 import { utils } from "ethers";
 import { Form, Formik } from "formik";
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { WarningMSG } from "../../utils/messages";
 import VaultFactoryContract from "../../utils/VaultFactory.json";
 import { Field } from "../field";
+import { CurrentMaticInUSD } from "./matic-price-feed";
 
 export interface InitialValues {
   depositAmount: string;
@@ -20,6 +21,10 @@ const initialValues: InitialValues = {
 };
 
 const CreateVaultForm = () => {
+  const [oneMaticInUSD, setOneMaticInUSD] = useState(0);
+  const [inputDepositInUSD, setInputDepositInUSD] = useState(0);
+  const currentInputDeposit = useRef(null);
+
   const factoryContract = new Contract(
     "0xC7433eBC21b216fe6484DA1b8A7bC3e4b1055279",
     VaultFactoryContract.abi
@@ -32,14 +37,32 @@ const CreateVaultForm = () => {
   );
 
   useEffect(() => {
-    console.log(`state : ${JSON.stringify(state)}`);
-    console.log(`events : ${JSON.stringify(events)}`);
+    // console.log(`state : ${JSON.stringify(state)}`);
+    // console.log(`events : ${JSON.stringify(events)}`);
   }, [state, events]);
 
+  useEffect(() => {
+    getMaticPriceInUSD();
+  }, []);
+
+  const getMaticPriceInUSD = useCallback(async () => {
+    const currentMaticPrice = await CurrentMaticInUSD();
+    setOneMaticInUSD(currentMaticPrice);
+  }, []);
+
+  const updateDeposit = useCallback(
+    async (event: any) => {
+      const userInput = event.target.value;
+      const depositInUSD = Number(userInput) * Number(oneMaticInUSD);
+      setInputDepositInUSD(depositInUSD);
+    },
+    [oneMaticInUSD]
+  );
   return (
     <Formik
       initialValues={initialValues}
       // validate={validate}
+      innerRef={currentInputDeposit}
       onSubmit={async (values, { setSubmitting }) => {
         const { depositAmount, renterWallet, endDate } = values;
 
@@ -74,7 +97,7 @@ const CreateVaultForm = () => {
 
         const date = new Date(endDate);
         const unixEndDate = Math.floor(date.getTime() / 1000);
-
+        console.log(parsedDepositAmount.toString());
         send(parsedDepositAmount, renterWallet, unixEndDate);
         setSubmitting(false);
       }}
@@ -85,8 +108,9 @@ const CreateVaultForm = () => {
             <Field
               type="number"
               name="depositAmount"
-              label="Deposit Amount (in ETH)"
+              label="Deposit Amount (in Matic)"
               onChange={handleChange}
+              onKeyUp={updateDeposit}
             />
             <Field
               type="date"
@@ -101,6 +125,7 @@ const CreateVaultForm = () => {
               onChange={handleChange}
             />
           </div>
+          <div>{`1 matic ≈ $ ${oneMaticInUSD} ($ ${inputDepositInUSD})`}</div>
           <button
             type="submit"
             disabled={isSubmitting}
