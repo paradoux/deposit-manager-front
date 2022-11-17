@@ -1,8 +1,9 @@
 import { useEthers } from "@usedapp/core";
-import { VaultType } from "../../routes/vaults";
-import ProposeAmountForm from "../propose-amount/propose-amount";
-import AcceptAmountButton from "../accept-amount/accept-amount";
 import { utils } from "ethers";
+import { VaultType } from "../../routes/vaults";
+import AcceptAmountButton from "../accept-amount/accept-amount";
+import ProposeAmountForm from "../propose-amount/propose-amount";
+import SendDepositButton from "../send-deposit/send-deposit";
 
 interface VaultActionProps {
   VaultDetails: VaultType | undefined;
@@ -17,6 +18,18 @@ const VaultAction = ({ VaultDetails }: VaultActionProps) => {
 
   if (!VaultDetails) {
     return <></>;
+  }
+
+  if (
+    isRenter(account, VaultDetails.propertyRenter) &&
+    !VaultDetails.isDepositStored
+  ) {
+    return (
+      <SendDepositButton
+        vaultAddress={VaultDetails.deployedAddress}
+        depositAmount={VaultDetails.deposit.hex}
+      />
+    );
   }
 
   if (
