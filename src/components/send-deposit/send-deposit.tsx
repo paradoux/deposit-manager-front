@@ -5,6 +5,8 @@ import { Form, Formik } from "formik";
 import VaultContract from "../../utils/VaultImplementation.json";
 import { Field } from "../field";
 import { Button } from "../Button";
+import TransactionButton from "../transaction-button";
+import { stat } from "fs";
 
 interface SendDepositButtonProps {
   vaultAddress: string;
@@ -27,12 +29,7 @@ const SendDepositButton = ({
   };
 
   return (
-    <Button
-      onClick={() => handleSubmit()}
-      className="cta-button connect-wallet-button"
-    >
-      Send deposit
-    </Button>
+    <TransactionButton status={state.status} buttonText="Send deposit" onClick={handleSubmit} />
   );
 };
 
