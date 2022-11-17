@@ -25,6 +25,7 @@
     "react-icons": "^4.6.0",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.1",
     "react-spinners": "^0.13.6",
     "react-tsparticles": "^2.3.3",
     "tsparticles": "^2.3.4",

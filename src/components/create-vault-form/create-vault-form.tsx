@@ -1,7 +1,9 @@
 import { Contract } from "@ethersproject/contracts";
-import { useContractFunction } from "@usedapp/core";
+import { useContractFunction, useEthers } from "@usedapp/core";
 import { utils } from "ethers";
 import { Form, Formik } from "formik";
+import { useEffect } from "react";
+import { WarningMSG } from "../../utils/messages";
 import VaultFactoryContract from "../../utils/VaultFactory.json";
 import { Field } from "../field";
 
@@ -19,26 +21,61 @@ const initialValues: InitialValues = {
 
 const CreateVaultForm = () => {
   const factoryContract = new Contract(
-    process.env.REACT_APP_FACTORY_DEPLOYED_ADDRESS as string,
+    "0xC7433eBC21b216fe6484DA1b8A7bC3e4b1055279",
     VaultFactoryContract.abi
   ) as any;
 
-  const { send } = useContractFunction(factoryContract, "createNewVault");
+  const { account, switchNetwork } = useEthers();
+  const { send, state, events } = useContractFunction(
+    factoryContract,
+    "createNewVault"
+  );
+
+  useEffect(() => {
+    console.log(`state : ${JSON.stringify(state)}`);
+    console.log(`events : ${JSON.stringify(events)}`);
+  }, [state, events]);
 
   return (
     <Formik
       initialValues={initialValues}
       // validate={validate}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }) => {
         const { depositAmount, renterWallet, endDate } = values;
 
+        if (typeof window.ethereum === undefined) {
+          return WarningMSG("Please install the metamask");
+        }
+
+        if (!account) {
+          return WarningMSG("Please connect your metamask wallet");
+        }
+
+        const currentChainId = await window.ethereum.request({
+          method: "eth_chainId",
+        });
+
+        if (
+          currentChainId.toString() !== "0x89" &&
+          currentChainId.toString() !== "0x13881"
+        ) {
+          WarningMSG("Please use Mumbai testnet");
+          return await switchNetwork(80001);
+        }
+
+        if (
+          depositAmount.toString().trim() === "0" ||
+          endDate.trim() === "" ||
+          renterWallet.trim() === ""
+        ) {
+          return WarningMSG("Please fill in the form");
+        }
         const parsedDepositAmount = utils.parseEther(depositAmount.toString());
 
         const date = new Date(endDate);
         const unixEndDate = Math.floor(date.getTime() / 1000);
 
         send(parsedDepositAmount, renterWallet, unixEndDate);
-
         setSubmitting(false);
       }}
     >

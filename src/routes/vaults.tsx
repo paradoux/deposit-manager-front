@@ -7,6 +7,7 @@ import { utils } from "ethers";
 import BeatLoader from "react-spinners/BeatLoader";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
 interface BigNumber {
   type: string;
   hex: string;
