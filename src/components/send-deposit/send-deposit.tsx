@@ -6,20 +6,24 @@ import VaultContract from "../../utils/VaultImplementation.json";
 import { Field } from "../field";
 import { Button } from "../Button";
 
-interface AcceptAmountButtonProps {
+interface SendDepositButtonProps {
   vaultAddress: string;
+  depositAmount: string;
 }
 
-const AcceptAmountButton = ({ vaultAddress }: AcceptAmountButtonProps) => {
+const SendDepositButton = ({
+  vaultAddress,
+  depositAmount,
+}: SendDepositButtonProps) => {
   const vaultContract = new Contract(vaultAddress, VaultContract.abi) as any;
 
   const { send, state, events } = useContractFunction(
     vaultContract,
-    "acceptProposedAmount"
+    "storeDeposit"
   );
 
   const handleSubmit = async () => {
-    await send();
+    await send({ value: depositAmount });
   };
 
   return (
@@ -27,9 +31,9 @@ const AcceptAmountButton = ({ vaultAddress }: AcceptAmountButtonProps) => {
       onClick={() => handleSubmit()}
       className="cta-button connect-wallet-button"
     >
-      Accept proposed amount
+      Send deposit
     </Button>
   );
 };
 
-export default AcceptAmountButton;
+export default SendDepositButton;
