@@ -1,10 +1,9 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Contract } from "@ethersproject/contracts";
 import { useContractFunction, useEthers } from "@usedapp/core";
 import { utils } from "ethers";
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
-import { BeatLoader } from "react-spinners";
 import { WarningMSG, SuccessMSG } from "../../utils/messages";
 import VaultFactoryContract from "../../utils/VaultFactory.json";
 import { Button } from "../Button";
@@ -12,12 +11,6 @@ import { Field } from "../field";
 import { CurrentMaticInUSD } from "./matic-price-feed";
 import { getHighLevelTransactionState } from "../../utils/misc";
 import TransactionButton from "../transaction-button";
-
-const override = {
-  display: "flex",
-  justifyContent: "center",
-  padding: "2px 0",
-};
 
 export interface InitialValues {
   depositAmount: string;
@@ -34,7 +27,6 @@ const initialValues: InitialValues = {
 const CreateVaultForm = () => {
   const [oneMaticInUSD, setOneMaticInUSD] = useState(0);
   const [inputDepositInUSD, setInputDepositInUSD] = useState(0);
-  const currentInputDeposit = useRef(null);
 
   const factoryContract = new Contract(
     //"0xC7433eBC21b216fe6484DA1b8A7bC3e4b1055279",
@@ -147,7 +139,7 @@ const CreateVaultForm = () => {
                 <Field
                   type="number"
                   name="depositAmount"
-                  label="Deposit Amount (in ETH)"
+                  label="Deposit Amount"
                   onChange={handleChange}
                   onKeyUp={updateDeposit}
                 />
