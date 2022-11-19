@@ -37,7 +37,8 @@ const CreateVaultForm = () => {
   const currentInputDeposit = useRef(null);
 
   const factoryContract = new Contract(
-    "0xC7433eBC21b216fe6484DA1b8A7bC3e4b1055279",
+    //"0xC7433eBC21b216fe6484DA1b8A7bC3e4b1055279",
+    "0xb7449B6eBd89F8e40040FA8FDD4E587A4e5747a6",
     VaultFactoryContract.abi
   ) as any;
 
@@ -164,7 +165,10 @@ const CreateVaultForm = () => {
                 />
               </div>
               <div>{`1 matic ≈ $ ${oneMaticInUSD} ($ ${inputDepositInUSD})`}</div>
-              <TransactionButton status={status} buttonText="Create your vault" />
+              <TransactionButton
+                status={status}
+                buttonText="Create your vault"
+              />
             </Form>
           )}
         </Formik>
