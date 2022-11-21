@@ -8,6 +8,8 @@ import { Button } from "../components/Button";
 import { ShadowBox } from "../components/shadow-box";
 import { VaultAction } from "../components/vault-action/vault-action";
 import { VaultType } from "./vaults";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { FaCopy } from "react-icons/fa";
 
 const Vault = () => {
   const notify = () => toast.success("copied to clipboard");
@@ -75,29 +77,54 @@ const Vault = () => {
     <div className="w-full flex flex-col items-center justify-center font-wotfard">
       <ShadowBox className="flex flex-col items-center">
         <h1 className="text-4xl pt-6 font-mono">Your vault</h1>
-        <div className="card max-w-lg m-2 py-6 rounded-lg lg:text-3xl">
-          <p className="mb-2">
-            <span className="text-zinc-400">Owner wallet: </span>
-            {shortenAddress(vaultDetails.propertyOwner)}
+        <div className="card max-w-2xl m-2 py-6 rounded-lg lg:text-3xl">
+          <p className="mb-2 text-zinc-400">
+            Owner wallet:
+            <span
+              className="float-right text-white"
+              title="Copy Command To Clipboard"
+            >
+              {shortenAddress(vaultDetails.propertyOwner)}
+              <CopyToClipboard
+                text={vaultDetails.propertyOwner}
+                onCopy={notify}
+              >
+                <FaCopy className="inline-block relative -top-1.5 ml-1 cursor-pointer text-sm hover:text-gray-400" />
+              </CopyToClipboard>
+            </span>
           </p>
-          <p className="mb-2">
-            <span className="text-zinc-400">Renter wallet: </span>
-            {shortenAddress(vaultDetails.propertyRenter)}
+
+          <p className="mb-2 text-zinc-400">
+            Renter wallet:{" "}
+            <span
+              className="float-right text-white"
+              title="Copy Command To Clipboard"
+            >
+              {shortenAddress(vaultDetails.propertyRenter)}
+              <CopyToClipboard
+                text={vaultDetails.propertyRenter}
+                onCopy={notify}
+              >
+                <FaCopy className="inline-block relative -top-1.5 ml-1 cursor-pointer text-sm hover:text-gray-400" />
+              </CopyToClipboard>
+            </span>
           </p>
-          <p className="mb-2">
-            <span className="text-zinc-400">Deposit amount: </span>
-            {utils.formatEther(vaultDetails.deposit.hex)}
+          <p className="mb-2 text-zinc-400">
+            Deposit amount:
+            <span className="float-right text-white">{utils.formatEther(vaultDetails.deposit.hex)}</span>
           </p>
-          <p className="mb-2">
-            <span className="text-zinc-400">End of rental period: </span>
+          <p className="mb-2 text-zinc-400">
+            End of rental period:
+            <span className="float-right text-white ml-20">
             {new Date(vaultDetails.rentalPeriodEnd * 1000).toLocaleString([], {
               dateStyle: "long",
             })}
+            </span>
           </p>
           {utils.formatEther(vaultDetails.amountToReturn.hex) !== "0.0" && (
-            <p className="mb-2">
-              <span className="text-zinc-400">Proposed amount to return: </span>
-              {utils.formatEther(vaultDetails.amountToReturn.hex)}
+            <p className="mb-2 text-zinc-400">
+              Proposed amount to return:
+              <span className="float-right text-white">{utils.formatEther(vaultDetails.amountToReturn.hex)}</span>
             </p>
           )}
           <div className="mt-8 pt-8 flex flex-col justify-between items-center border-t-2 border-slate-200">
